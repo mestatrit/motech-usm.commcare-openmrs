@@ -16,17 +16,22 @@ import org.motechproject.openmrs.rest.model.Person.PreferredName;
 
 public final class ConverterUtils {
 
-    private ConverterUtils() { }
+    private ConverterUtils() {
+    }
 
     public static MRSPerson convertToMrsPerson(Person person) {
         MRSPerson converted = new MRSPerson();
-        converted.id(person.getUuid()).address(person.getPreferredAddress().getAddress1())
-                .birthDateEstimated(person.isBirthdateEstimated()).dateOfBirth(person.getBirthdate())
-                .dead(person.isDead()).deathDate(person.getDeathDate())
+
+        converted.id(person.getUuid()).birthDateEstimated(person.isBirthdateEstimated())
+                .dateOfBirth(person.getBirthdate()).dead(person.isDead()).deathDate(person.getDeathDate())
                 .firstName(person.getPreferredName().getGivenName())
                 .middleName(person.getPreferredName().getMiddleName())
                 .lastName(person.getPreferredName().getFamilyName()).gender(person.getGender())
                 .preferredName(person.getPreferredName().getDisplay());
+
+        if (person.getPreferredAddress() != null) {
+            converted.address(person.getPreferredAddress().getAddress1());
+        }
         for (Attribute attr : person.getAttributes()) {
             // extract name/value from the display property
             // there is no explicit property for name attribute

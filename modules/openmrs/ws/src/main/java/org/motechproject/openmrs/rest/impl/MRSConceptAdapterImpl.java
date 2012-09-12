@@ -41,8 +41,8 @@ public class MRSConceptAdapterImpl {
         }
 
         try {
-            String encodedConceptName = URLEncoder.encode(conceptName, "UTF-8");
-            String responseJson = restfulClient.getJson(urlHolder.getConceptSearchByName(encodedConceptName));
+            //String encodedConceptName = URLEncoder.encode(conceptName, "UTF-8");
+            String responseJson = restfulClient.getJson(urlHolder.getConceptSearchByName(conceptName));
 
             ConceptListResult results = (ConceptListResult) JsonUtils.readJson(responseJson, ConceptListResult.class);
 
@@ -55,9 +55,6 @@ public class MRSConceptAdapterImpl {
             Concept concept = results.getResults().get(0);
             conceptCache.put(conceptName, concept.getUuid());
             return concept.getUuid();
-        } catch (UnsupportedEncodingException e) {
-            LOGGER.error("Could not URL Encode the concept name: " + conceptName);
-            throw new MRSException(e);
         } catch (HttpException e) {
             LOGGER.error("There was an error retrieving the uuid of the concept with concept name: " + conceptName);
             throw new MRSException(e);

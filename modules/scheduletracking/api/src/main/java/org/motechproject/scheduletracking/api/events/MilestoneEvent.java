@@ -75,7 +75,7 @@ public class MilestoneEvent {
     public MotechEvent toMotechEvent() {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put(EventDataKeys.WINDOW_NAME, windowName);
-        parameters.put(EventDataKeys.MILESTONE_NAME, milestoneAlert);
+        //parameters.put(EventDataKeys.MILESTONE_NAME, milestoneAlert);
         parameters.put(EventDataKeys.SCHEDULE_NAME, scheduleName);
         parameters.put(EventDataKeys.EXTERNAL_ID, externalId);
         parameters.put(EventDataKeys.REFERENCE_DATE, referenceDateTime);

@@ -1,0 +1,102 @@
+{
+    "name":"Quick Health Worker Form Submission Tracking",
+    "absolute": true,
+    "milestones":[
+        {
+            "name":"form1",
+            "scheduleWindows":{
+                "earliest":["0 Minutes"],
+                "due":["4 Minutes"],
+                "late":["60 Minutes"],
+                "max":["60 Minutes"]
+            },
+            "data":{
+            },
+            "alerts":[
+                {
+                    "window":"late",
+                    "offset":["4 Minutes"],
+                    "interval":["1 Minute"],
+                    "count":"1"
+                }
+            ]
+        },
+        {
+            "name":"form2",
+            "scheduleWindows":{
+                "earliest":["4 Minutes"],
+                "due":["8 Minutes"],
+                "late":["60 Minutes"],
+                "max":["60 Minutes"]
+            },
+            "data":{
+            },
+            "alerts":[
+                {
+                    "window":"late",
+                    "offset":["8 Minutes"],
+                    "interval":["1 Minute"],
+                    "count":"1"
+                }
+
+            ]
+        },
+         {
+            "name":"form3",
+            "scheduleWindows":{
+                "earliest":["8 Minutes"],
+                "due":["12 Minutes"],
+                "late":["60 Minutes"],
+                "max":["60 Minutes"]
+            },
+            "data":{
+            },
+            "alerts":[
+                {
+                    "window":"late",
+                    "offset":["12 Minutes"],
+                    "interval":["1 Minute"],
+                    "count":"1"
+                }
+            ]
+        },
+         {
+            "name":"form4",
+            "scheduleWindows":{
+                "earliest":["12 Minutes"],
+                "due":["16 Minutes"],
+                "late":["60 Minutes"],
+                "max":["60 Minutes"]
+            },
+            "data":{
+            },
+            "alerts":[
+                {
+                    "window":"late",
+                    "offset":["16 Minutes"],
+                    "interval":["1 Minute"],
+                    "count":"1"
+                }
+            ]
+        },
+         {
+            "name":"form5",
+            "scheduleWindows":{
+                "earliest":["16 Minutes"],
+                "due":["20 Minutes"],
+                "late":["60 Minutes"],
+                "max":["60 Minutes"]
+            },
+            "data":{
+            },
+            "alerts":[
+                {
+                    "window":"late",
+                    "offset":["20 Minutes"],
+                    "interval":["1 Minute"],
+                    "count":"1"
+                }
+            ]
+        }
+    ]
+}
