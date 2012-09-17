@@ -32,7 +32,7 @@ public final class GenerateDateTimeUtil {
         DateTime enrollTime;
 
         if (now.dayOfWeek().get() == day) {
-            enrollTime = now.withHourOfDay(MotechConstants.HOUR_DUE).withMinuteOfHour(MotechConstants.MINUTE_DUE);
+            enrollTime = now.withHourOfDay(MotechConstants.HOUR_DUE).withMinuteOfHour(MotechConstants.MINUTE_DUE).minusWeeks(1);
         } else if (now.dayOfWeek().get() > day) {
             enrollTime = now.withHourOfDay(MotechConstants.HOUR_DUE).withMinuteOfHour(MotechConstants.MINUTE_DUE).withDayOfWeek(MotechConstants.DAY_DUE);
         } else {

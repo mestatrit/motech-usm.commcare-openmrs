@@ -25,11 +25,11 @@ public final class MotechConstants {
     public static final String REMINDER_SUBJECT = "subject";
 
     // Time due constants
-    public static final int DAY_DUE = DayOfWeek.Tuesday.getValue();
+    public static final int DAY_DUE = DayOfWeek.Sunday.getValue();
 
-    public static final int HOUR_DUE = 18;
+    public static final int HOUR_DUE = 23;
 
-    public static final int MINUTE_DUE = 46;
+    public static final int MINUTE_DUE = 59;
 
     public static final int SECONDS_IN_MINUTE = 60;
 
@@ -53,7 +53,7 @@ public final class MotechConstants {
 
     public static final String REGION = "region";
 
-    public static final int NUM_DAYS_TO_CHECK = 3;
+    public static final int NUM_DAYS_TO_CHECK = 4;
 
     private MotechConstants() {
     }

@@ -11,7 +11,9 @@ import org.gates.ethiopia.constants.FormMappingConstants;
 import org.gates.ethiopia.util.OpenMRSCommcareUtil;
 import org.joda.time.DateTime;
 import org.motechproject.commcare.domain.CommcareForm;
+import org.motechproject.commcare.domain.CommcareUser;
 import org.motechproject.commcare.domain.FormValueElement;
+import org.motechproject.commcare.service.CommcareUserService;
 import org.motechproject.mrs.exception.MRSException;
 import org.motechproject.mrs.model.Attribute;
 import org.motechproject.mrs.model.MRSFacility;
@@ -33,6 +35,9 @@ public class AllRegistrationsAdapter implements ActivityFormAdapter {
 
     @Autowired
     private MRSPatientAdapter mrsPatientAdapter;
+    
+    @Autowired
+    private CommcareUserService userService;
 
     @Override
     public void adaptForm(CommcareForm form, MRSActivity activity) {
@@ -55,6 +60,8 @@ public class AllRegistrationsAdapter implements ActivityFormAdapter {
             List<FormValueElement> subElements = (List<FormValueElement>) topFormElement.getSubElements().get(
                     idFieldName);
             motechId = subElements.get(0).getValue();
+        } else if (idSchemeType.equals(FormMappingConstants.COMMCARE_ID_SCHEME)) {
+            //id field exists on commcare
         }
 
         MRSPatient patient = mrsPatientAdapter.getPatientByMotechId(motechId);
@@ -166,6 +173,29 @@ public class AllRegistrationsAdapter implements ActivityFormAdapter {
         }
 
         if (facilityName != null) {
+            facility = openMrsUtil.findFacility(facilityName);
+        } else {
+                if (registrationActivity.getFacilityScheme() != null && registrationActivity.getFacilityScheme().get("type").equals("commcareUser")) {
+                    String facilityUserFieldName = registrationActivity.getFacilityScheme().get("fieldName");
+                    if (facilityUserFieldName != null) {
+                        String userId = form.getMetadata().get("userID");
+                        logger.info("Retreiving user: " + userId);
+                        CommcareUser user = userService.getCommcareUserById(userId);
+                        if (user != null) {
+                            facilityName = user.getUserData().get(facilityUserFieldName);
+                        } else {
+                            logger.info("Could not find user: " + userId);
+                        }
+                    }
+                } else {
+                    logger.info("No facility scheme defined");
+                }
+        }
+        
+        if (facilityName == null ) {
+            logger.warn("No facility name provided, using " + FormMappingConstants.DEFAULT_FACILITY);
+            facilityName = FormMappingConstants.DEFAULT_FACILITY;
+        } else {
             facility = openMrsUtil.findFacility(facilityName);
         }
 

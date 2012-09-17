@@ -14,7 +14,9 @@ import org.gates.ethiopia.constants.FormMappingConstants;
 import org.gates.ethiopia.util.OpenMRSCommcareUtil;
 import org.joda.time.DateTime;
 import org.motechproject.commcare.domain.CommcareForm;
+import org.motechproject.commcare.domain.CommcareUser;
 import org.motechproject.commcare.domain.FormValueElement;
+import org.motechproject.commcare.service.CommcareUserService;
 import org.motechproject.mrs.model.MRSObservation;
 import org.motechproject.mrs.model.MRSPatient;
 import org.slf4j.Logger;
@@ -29,6 +31,9 @@ public class AllEncountersAdapter implements ActivityFormAdapter {
 
     @Autowired
     private OpenMRSCommcareUtil openMrsUtil;
+
+    @Autowired
+    private CommcareUserService userService;
 
     @Override
     public void adaptForm(CommcareForm form, MRSActivity activity) {
@@ -74,6 +79,18 @@ public class AllEncountersAdapter implements ActivityFormAdapter {
         }
 
         if (facilityName == null) {
+            if (encounterActivity.getFacilityScheme() != null && encounterActivity.getFacilityScheme().get("type").equals("commcareUser")) {
+                String facilityUserFieldName = encounterActivity.getFacilityScheme().get("fieldName");
+                if (facilityUserFieldName != null) {
+                    String userId = form.getMetadata().get("userID");
+                    CommcareUser user = userService.getCommcareUserById(userId);
+                    facilityName = user.getUserData().get(facilityUserFieldName);
+                }
+            }
+        }
+
+        if (facilityName == null ) {
+            logger.warn("No facility name provided, using " + FormMappingConstants.DEFAULT_FACILITY);
             facilityName = FormMappingConstants.DEFAULT_FACILITY;
         }
 

@@ -10,6 +10,10 @@
           "type": "commcare",
           "fieldName": "health_id"
         },
+        "facilityScheme": {
+          "type": "commcareUser",
+          "fieldName": "location"
+        },        
         "observationMappings": [
           {
             "elementName": "condition_improved",
@@ -71,6 +75,10 @@
             "conceptName": "Date of last antenatal visit"
           },
           {
+            "elementName": "num_anc",
+            "conceptName": "ANTENATAL VISIT NUMBER"
+          },          
+          {
             "elementName": "counsel_type",
             "conceptName": "EDUCATION/COUNSELING ORDERS",
             "type": "list",
@@ -96,9 +104,12 @@
           "type": "default",
           "fieldName": "health_id"
         },
+        "facilityScheme": {
+          "type": "commcareUser",
+          "fieldName": "location"
+        },       
         "staticMappings": {
-          "gender": "female",
-          "facility": "Unknown location"
+          "gender": "female"
         },
         "registrationMappings": {
           "dateOfBirth": "dob_calc",
@@ -113,6 +124,10 @@
           "type": "default",
           "fieldName": "health_id"
         },
+        "facilityScheme": {
+          "type": "commcareUser",
+          "fieldName": "location"
+        },       
         "observationMappings": [
           {
             "elementName": "edd_calc",
@@ -153,6 +168,10 @@
         "type": "default",
         "fieldName": "health_id"
       },
+        "facilityScheme": {
+          "type": "commcareUser",
+          "fieldName": "location"
+        },      
       "observationMappings": [
         {
           "elementName": "delivered_in_facility",

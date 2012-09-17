@@ -1,15 +1,20 @@
 package org.gates.ethiopia.web;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.gates.ethiopia.constants.CommcareConstants;
 import org.gates.ethiopia.constants.EventConstants;
 import org.gates.ethiopia.constants.MotechConstants;
 import org.motechproject.commcare.domain.CaseInfo;
+import org.motechproject.commcare.domain.CommcareUser;
 import org.motechproject.commcare.service.CommcareCaseService;
+import org.motechproject.commcare.service.CommcareUserService;
 import org.motechproject.eventlogging.domain.CouchEventLog;
 import org.motechproject.eventlogging.service.EventQueryService;
 import org.motechproject.scheduletracking.api.domain.EnrollmentStatus;
@@ -87,6 +92,42 @@ public class HEWStatusController {
     public ModelAndView admin(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = new ModelAndView("admin");
+
+        return mav;
+    }
+
+    @RequestMapping("/regions") 
+    public ModelAndView regions(HttpServletRequest request, HttpServletResponse response) {
+
+        logger.info("Printing regions...");
+
+        Set<String> regions = new HashSet<String>();
+
+        List<CaseInfo> hewList = caseService.getAllCasesByType(CommcareConstants.CASE_TYPE);
+        
+        logger.info("# of HEWs: " + hewList.size());
+
+        for (CaseInfo hew : hewList) {
+            regions.add(hew.getFieldValues().get("region").trim().toLowerCase());
+        }
+
+        for (String region : regions) {
+            logger.info("Region: " + region);
+        }
+
+        ModelAndView mav = new ModelAndView("admin");
+
+        return mav;
+    }
+    
+    @RequestMapping("/enrollments/checkemails")
+    public ModelAndView emails(HttpServletRequest request, HttpServletResponse response) {
+
+        ModelAndView mav = new ModelAndView("admin");
+        
+        List<CaseInfo> hewList = caseService.getAllCasesByType(CommcareConstants.CASE_TYPE);
+        
+        
 
         return mav;
     }

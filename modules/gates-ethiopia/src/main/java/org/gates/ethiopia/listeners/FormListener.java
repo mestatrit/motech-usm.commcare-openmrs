@@ -53,6 +53,8 @@ public class FormListener {
 
         if (rootElement != null) {
             formsAdapter.adaptForm(form);
+        } else {
+            logger.info("Unable to adapt form");
         }
     }
 }
