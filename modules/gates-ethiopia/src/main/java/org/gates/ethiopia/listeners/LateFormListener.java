@@ -49,25 +49,28 @@ public class LateFormListener {
     public void handleWoredaFacilityLateOnForm(MotechEvent event) {
         MilestoneEvent milestoneEvent = new MilestoneEvent(event);
 
-        logger.info("Alert for schedule: " + milestoneEvent.getScheduleName());
+        // logger.info("Alert for schedule: " +
+        // milestoneEvent.getScheduleName());
 
         if (milestoneEvent.getScheduleName().equals(MotechConstants.SCHEDULE_NAME)) {
             String woredaFacilityId = milestoneEvent.getExternalId();
             List<CaseInfo> hews = caseService.getAllCasesByType(CommcareConstants.CASE_TYPE);
             String[] woredaFacility = woredaFacilityId.split("[.]");
 
-            if (!formSubmittedForWoredaFacilityWithinLastWeek(woredaFacility[0], woredaFacility[1], hews)) {
-                sendEmailAlert(woredaFacilityId, "default");
-                logger.info("Form was not submitted for " + milestoneEvent.getExternalId());
+            String region = null;
+            if ((region = (formSubmittedForWoredaFacilityWithinLastWeek(woredaFacility[0], woredaFacility[1], hews))) != null) {
+                sendEmailAlert(woredaFacilityId, region);
+                logger.info("**** Form was NOT submitted for " + milestoneEvent.getExternalId());
             } else {
-                logger.info("Form was submitted" + milestoneEvent.getExternalId());
+                logger.info("&&&& Form was submitted for " + milestoneEvent.getExternalId());
             }
 
             LocalDate localDate = DateUtil.today();
             Time time = DateUtil.time(DateTime.now());
 
-            scheduleTrackingService.fulfillCurrentMilestone(woredaFacilityId, MotechConstants.SCHEDULE_NAME, localDate,
-                    time);
+            // scheduleTrackingService.fulfillCurrentMilestone(woredaFacilityId,
+            // MotechConstants.SCHEDULE_NAME, localDate,
+            // time);
 
         }
     }
@@ -195,7 +198,9 @@ public class LateFormListener {
         }
     }
 
-    private boolean formSubmittedForWoredaFacilityWithinLastWeek(String woreda, String facility, List<CaseInfo> hews) {
+    private String formSubmittedForWoredaFacilityWithinLastWeek(String woreda, String facility, List<CaseInfo> hews) {
+
+        String region = null;
 
         for (CaseInfo hew : hews) {
             String hewWoreda = hew.getFieldValues().get(CommcareConstants.WOREDA);
@@ -203,6 +208,7 @@ public class LateFormListener {
             hew.getFieldValues().get(CommcareConstants.LAST_SUBMITTED);
 
             if (woreda.equals(hewWoreda) && facility.equals(hewFacility)) {
+                region = hew.getFieldValues().get(CommcareConstants.REGION);
                 int dayDueBy = MotechConstants.DAY_DUE;
                 String lastSubmittedString = hew.getFieldValues().get(CommcareConstants.LAST_SUBMITTED);
                 logger.info("HEW " + hew.getFieldValues().get(CommcareConstants.HEW_NAME) + " for " + woreda + " : "
@@ -211,23 +217,27 @@ public class LateFormListener {
                     DateTime lastSubmitted = DateTime.parse(lastSubmittedString);
                     if (checkLate(lastSubmitted, dayDueBy, MotechConstants.SECONDS_IN_DAY
                             * MotechConstants.NUM_DAYS_TO_CHECK)) {
-                        return true;
+                        return null;
                     }
                 }
             }
         }
 
+        if (region == null) {
+            region = "default";
+        }
         MotechEvent lateEvent = new MotechEvent(EventConstants.LATE_EVENT);
         lateEvent.getParameters().put(CommcareConstants.WOREDA, woreda);
         lateEvent.getParameters().put(CommcareConstants.FACILITY_NAME, facility);
         eventRelay.sendEventMessage(lateEvent);
-        return false;
+        return region;
     }
 
     private boolean checkLate(DateTime lastSubmitted, int dayDueBy, int secondsDueAgo) {
+        DateTime fixedDate = lastSubmitted.withYear(MotechConstants.YEAR);
         DateTime secondsAgo = DateTime.now().minusSeconds(secondsDueAgo);
 
-        if (!lastSubmitted.isBefore(secondsAgo)) {
+        if (!fixedDate.isBefore(secondsAgo)) {
             return true;
         }
 

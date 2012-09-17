@@ -76,20 +76,20 @@ public class RegistrationPoller {
 
         Map<String, List<String>> woredaFacilityReportingDayMap = new HashMap<String, List<String>>();
 
-        for (CaseInfo hew : hewList) {
-            String woreda = hew.getFieldValues().get(CommcareConstants.WOREDA).trim();
-            String facility = hew.getFieldValues().get(CommcareConstants.FACILITY_NAME).trim();
-            String facilityWoredaKey = woreda + "." + facility;
-            if (woredaFacilityReportingDayMap.get(facilityWoredaKey) == null) {
-                List<String> list = new ArrayList<String>();
-                list.add(hew.getFieldValues().get(CommcareConstants.HEW_NAME));
-                woredaFacilityReportingDayMap.put(facilityWoredaKey, list);
-            } else {
-                woredaFacilityReportingDayMap.get(facilityWoredaKey).add(
-                        hew.getFieldValues().get(CommcareConstants.HEW_NAME));
-
-            }
-        }
+//        for (CaseInfo hew : hewList) {
+//            String woreda = hew.getFieldValues().get(CommcareConstants.WOREDA).trim();
+//            String facility = hew.getFieldValues().get(CommcareConstants.FACILITY_NAME).trim();
+//            String facilityWoredaKey = woreda + "." + facility;
+//            if (woredaFacilityReportingDayMap.get(facilityWoredaKey) == null) {
+//                List<String> list = new ArrayList<String>();
+//                list.add(hew.getFieldValues().get(CommcareConstants.HEW_NAME));
+//                woredaFacilityReportingDayMap.put(facilityWoredaKey, list);
+//            } else {
+//                woredaFacilityReportingDayMap.get(facilityWoredaKey).add(
+//                        hew.getFieldValues().get(CommcareConstants.HEW_NAME));
+//
+//            }
+//        }
 
         for (Map.Entry<String, List<String>> entry : woredaFacilityReportingDayMap.entrySet()) {
 

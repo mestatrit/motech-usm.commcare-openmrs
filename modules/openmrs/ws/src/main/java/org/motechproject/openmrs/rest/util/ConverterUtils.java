@@ -28,7 +28,6 @@ public final class ConverterUtils {
                 .middleName(person.getPreferredName().getMiddleName())
                 .lastName(person.getPreferredName().getFamilyName()).gender(person.getGender())
                 .preferredName(person.getPreferredName().getDisplay());
-
         if (person.getPreferredAddress() != null) {
             converted.address(person.getPreferredAddress().getAddress1());
         }

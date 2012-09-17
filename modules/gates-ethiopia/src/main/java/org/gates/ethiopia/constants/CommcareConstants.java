@@ -12,6 +12,8 @@ public final class CommcareConstants {
 
     public static final String WOREDA = "woreda";
 
+    public static final Object REGION = "region";
+
     private CommcareConstants() {
     }
 }

@@ -53,7 +53,9 @@ public final class MotechConstants {
 
     public static final String REGION = "region";
 
-    public static final int NUM_DAYS_TO_CHECK = 4;
+    public static final int NUM_DAYS_TO_CHECK = 7;
+
+    public static final int YEAR = 2012;
 
     private MotechConstants() {
     }
