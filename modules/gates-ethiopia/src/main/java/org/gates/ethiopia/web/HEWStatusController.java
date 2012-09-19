@@ -131,42 +131,42 @@ public class HEWStatusController {
         return mav;
     }
 
-    @RequestMapping("/enrollments/checkemails")
-    public ModelAndView emails(HttpServletRequest request, HttpServletResponse response) {
-
-        ModelAndView mav = new ModelAndView("admin");
-
-        List<CaseInfo> hewList = caseService.getAllCasesByType(CommcareConstants.CASE_TYPE);
-
-
-        Map<String, List<String>> woredaFacilityReportingDayMap = new HashMap<String, List<String>>();
-
-        for (CaseInfo hew : hewList) {
-            String woreda = hew.getFieldValues().get(CommcareConstants.WOREDA).trim();
-            String facility = hew.getFieldValues().get(CommcareConstants.FACILITY_NAME).trim();
-            String facilityWoredaKey = woreda + "." + facility;
-            if (woredaFacilityReportingDayMap.get(facilityWoredaKey) == null) {
-                List<String> list = new ArrayList<String>();
-                list.add(hew.getFieldValues().get(CommcareConstants.HEW_NAME));
-                woredaFacilityReportingDayMap.put(facilityWoredaKey, list);
-            } else {
-                woredaFacilityReportingDayMap.get(facilityWoredaKey).add(
-                        hew.getFieldValues().get(CommcareConstants.HEW_NAME));
-
-            }
-        }
-
-        List<String> list = new ArrayList<String>(woredaFacilityReportingDayMap.keySet());
-
-        logger.info("Number of woreda-facility pairs: " + list.size());
-
-        for (String woredaFacility : list) {
-            MotechEvent hewEvent = new MotechEvent(EventSubjects.MILESTONE_ALERT);
-            hewEvent.getParameters().put(EventDataKeys.SCHEDULE_NAME, MotechConstants.SCHEDULE_NAME);
-            hewEvent.getParameters().put(EventDataKeys.EXTERNAL_ID, woredaFacility);
-            eventRelay.sendEventMessage(hewEvent);
-        }
-
-        return mav;
-    }
+//    @RequestMapping("/enrollments/checkemails")
+//    public ModelAndView emails(HttpServletRequest request, HttpServletResponse response) {
+//
+//        ModelAndView mav = new ModelAndView("admin");
+//
+//        List<CaseInfo> hewList = caseService.getAllCasesByType(CommcareConstants.CASE_TYPE);
+//
+//
+//        Map<String, List<String>> woredaFacilityReportingDayMap = new HashMap<String, List<String>>();
+//
+//        for (CaseInfo hew : hewList) {
+//            String woreda = hew.getFieldValues().get(CommcareConstants.WOREDA).trim();
+//            String facility = hew.getFieldValues().get(CommcareConstants.FACILITY_NAME).trim();
+//            String facilityWoredaKey = woreda + "." + facility;
+//            if (woredaFacilityReportingDayMap.get(facilityWoredaKey) == null) {
+//                List<String> list = new ArrayList<String>();
+//                list.add(hew.getFieldValues().get(CommcareConstants.HEW_NAME));
+//                woredaFacilityReportingDayMap.put(facilityWoredaKey, list);
+//            } else {
+//                woredaFacilityReportingDayMap.get(facilityWoredaKey).add(
+//                        hew.getFieldValues().get(CommcareConstants.HEW_NAME));
+//
+//            }
+//        }
+//
+//        List<String> list = new ArrayList<String>(woredaFacilityReportingDayMap.keySet());
+//
+//        logger.info("Number of woreda-facility pairs: " + list.size());
+//
+//        for (String woredaFacility : list) {
+//            MotechEvent hewEvent = new MotechEvent(EventSubjects.MILESTONE_ALERT);
+//            hewEvent.getParameters().put(EventDataKeys.SCHEDULE_NAME, MotechConstants.SCHEDULE_NAME);
+//            hewEvent.getParameters().put(EventDataKeys.EXTERNAL_ID, woredaFacility);
+//            eventRelay.sendEventMessage(hewEvent);
+//        }
+//
+//        return mav;
+//    }
 }

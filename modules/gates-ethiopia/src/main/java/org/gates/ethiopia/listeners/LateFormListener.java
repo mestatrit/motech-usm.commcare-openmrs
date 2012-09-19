@@ -203,8 +203,8 @@ public class LateFormListener {
         String region = null;
 
         for (CaseInfo hew : hews) {
-            String hewWoreda = hew.getFieldValues().get(CommcareConstants.WOREDA);
-            String hewFacility = hew.getFieldValues().get(CommcareConstants.FACILITY_NAME);
+            String hewWoreda = hew.getFieldValues().get(CommcareConstants.WOREDA).trim().toLowerCase();
+            String hewFacility = hew.getFieldValues().get(CommcareConstants.FACILITY_NAME).trim().toLowerCase();
             hew.getFieldValues().get(CommcareConstants.LAST_SUBMITTED);
 
             if (woreda.equals(hewWoreda) && facility.equals(hewFacility)) {
