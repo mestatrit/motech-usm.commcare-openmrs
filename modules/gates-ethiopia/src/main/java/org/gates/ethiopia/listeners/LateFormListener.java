@@ -49,8 +49,8 @@ public class LateFormListener {
     public void handleWoredaFacilityLateOnForm(MotechEvent event) {
         MilestoneEvent milestoneEvent = new MilestoneEvent(event);
 
-        // logger.info("Alert for schedule: " +
-        // milestoneEvent.getScheduleName());
+         logger.info("Alert for schedule: " +
+         milestoneEvent.getScheduleName());
 
         if (milestoneEvent.getScheduleName().equals(MotechConstants.SCHEDULE_NAME)) {
             String woredaFacilityId = milestoneEvent.getExternalId();
@@ -68,9 +68,9 @@ public class LateFormListener {
             LocalDate localDate = DateUtil.today();
             Time time = DateUtil.time(DateTime.now());
 
-            // scheduleTrackingService.fulfillCurrentMilestone(woredaFacilityId,
-            // MotechConstants.SCHEDULE_NAME, localDate,
-            // time);
+             scheduleTrackingService.fulfillCurrentMilestone(woredaFacilityId,
+             MotechConstants.SCHEDULE_NAME, localDate,
+             time);
 
         }
     }
